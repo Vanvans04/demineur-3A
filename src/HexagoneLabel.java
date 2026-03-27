@@ -4,7 +4,7 @@ import java.awt.*;
 public class HexagoneLabel extends JLabel {
     private Polygon hexagone;
 
-    public HexagoneLabel(int rayon) {
+    public HexagoneLabel() {
         super();
         setOpaque(false);
         setHorizontalAlignment(SwingConstants.CENTER);
@@ -12,8 +12,8 @@ public class HexagoneLabel extends JLabel {
     }
 
     private void calculerHexagone(){
-        int largeur = getWidth()-1;
-        int hauteur = getHeight()-1;
+        int largeur = getWidth();
+        int hauteur = getHeight();
         int[] x = {largeur/4, largeur*3/4, largeur, largeur*3/4, largeur/4, 0};
         int[] y = {0, 0, hauteur/2, hauteur, hauteur, hauteur/2};
         hexagone = new Polygon(x,y,6);
@@ -21,7 +21,7 @@ public class HexagoneLabel extends JLabel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        if (hexagone == null || hexagone.getBounds().width != getWidth() - 1) {
+        if (hexagone == null || hexagone.getBounds().width != getWidth()) {
             calculerHexagone();
         }
         Graphics2D g2 = (Graphics2D) g;

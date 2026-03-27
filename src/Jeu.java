@@ -12,7 +12,7 @@ public class Jeu extends Observable {
     }
 
     public void init(){
-        this.grille = new GrilleC(nbCases);
+        this.grille = new GrilleH(nbCases);
     }
 
     public void updateCase(int i, int j, Coup coup){

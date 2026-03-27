@@ -27,9 +27,43 @@ public abstract class Grille {
         c.setNbVP(total);
     }
 
-    public abstract ArrayList<Case> getVoisins(Case c);
+    public Case getCase(int i, int j) {
+        if(i < 0 || j < 0 || i >= taille || j >= taille){
+            return null;
+        }
+        int pos = (i*taille+j);
+        return getCases().get(pos);
+    }
 
-    public abstract Case getCase(int i, int j);
+    public int[] getPos(Case c) {
+        int pos = cases.indexOf(c);
+        if (pos == -1) {
+            return null;
+        }
+        int i = pos / taille;
+        int j = pos % taille;
+
+        return new int[]{i, j};
+    }
+
+    public void placerBombes(int nbBombes, Case premierClic){
+        Random random = getRandom();
+        int taille = getTaille();
+        ArrayList<Case> cases = getCases();
+        ArrayList<Case> premieresCases = getVoisins(premierClic);
+        premieresCases.add(premierClic);
+
+        while(nbBombes > 0){
+            int nombre = random.nextInt(taille * taille);
+            Case c = cases.get(nombre);
+            if(!c.isBombe() && !premieresCases.contains(c)){
+                nbBombes--;
+                c.setBombe(true);
+            }
+        }
+    }
+
+    public abstract ArrayList<Case> getVoisins(Case c);
 
     public ArrayList<Case> getCases(){
         return cases;
@@ -38,10 +72,6 @@ public abstract class Grille {
     public int getTaille() {
         return taille;
     }
-
-    public abstract int[] getPos(Case c);
-
-    public abstract void placerBombes(int nbBombes, Case premiereCase);
 
     public Random getRandom() {
         return random;
