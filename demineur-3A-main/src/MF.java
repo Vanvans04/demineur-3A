@@ -10,9 +10,7 @@ public class MF extends JFrame implements Observer {
     Jeu jeu;
     JLabel[][] tab;
     Icon flagIcon;
-    Icon bombeIcon;
     int nbCases;
-    JLabel labelTimer;
 
     public MF(Jeu j){
         nbCases = 10;
@@ -22,10 +20,6 @@ public class MF extends JFrame implements Observer {
         ImageIcon iconImage = new ImageIcon(flagURL);
         Image image = iconImage.getImage().getScaledInstance((jeu.getWindowSize()/nbCases)-nbCases, (jeu.getWindowSize()/nbCases)-nbCases, Image.SCALE_SMOOTH);
         flagIcon = new ImageIcon(image);
-        URL mineURL = getClass().getResource("/resources/mine.png");
-        ImageIcon iconMine = new ImageIcon(mineURL);
-        Image imageMine = iconMine.getImage().getScaledInstance((jeu.getWindowSize() / nbCases) - nbCases, (jeu.getWindowSize() / nbCases) - nbCases, Image.SCALE_SMOOTH);
-        bombeIcon = new ImageIcon(imageMine);
         build();
     }
 
@@ -36,8 +30,8 @@ public class MF extends JFrame implements Observer {
 
                 if (jeu.isVisible(i, j)) {
                     if (jeu.isBombe(i, j)) {
-                        tab[i][j].setBackground(Color.LIGHT_GRAY);
-                        tab[i][j].setIcon(bombeIcon);
+                        tab[i][j].setBackground(Color.RED);
+                        tab[i][j].setText("B");
                     } else {
                         tab[i][j].setBackground(Color.LIGHT_GRAY);
                         int nbVP = jeu.getNbVP(i, j);
@@ -47,8 +41,6 @@ public class MF extends JFrame implements Observer {
                     }
                 } else if (jeu.isDrapeau(i, j)) {
                     tab[i][j].setIcon(flagIcon);
-                } else {
-                    tab[i][j].setIcon(null);
                 }
             }
         }

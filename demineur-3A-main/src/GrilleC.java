@@ -52,6 +52,7 @@ public class GrilleC extends Grille{
         ArrayList<Case> cases = getCases();
         ArrayList<Case> premieresCases = getVoisins(premierClic);
         premieresCases.add(premierClic);
+
         while(nbBombes > 0){
             int nombre = random.nextInt(taille * taille);
             Case c = cases.get(nombre);
