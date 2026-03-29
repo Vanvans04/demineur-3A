@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Observable;
 
 public class Jeu extends Observable {
@@ -13,7 +12,7 @@ public class Jeu extends Observable {
     }
 
     public void init(){
-        this.grille = new GrilleH(nbCases);
+        this.grille = new GrilleC(nbCases);
     }
 
     public void updateCase(int i, int j, Coup coup){
