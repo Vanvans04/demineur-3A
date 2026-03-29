@@ -30,7 +30,8 @@ public class EcranFin extends JFrame {
         });
         panelBoutons.add(restartButton);
         panelBoutons.add(quitButton);
-        add(panelBoutons, BorderLayout.SOUTH);
+        add(panelBoutons,BorderLayout.SOUTH);
+        this.setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

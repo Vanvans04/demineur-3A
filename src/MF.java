@@ -164,6 +164,7 @@ public class MF extends JFrame implements Observer {
                 }
             }
         }
+
         setContentPane(panneauPrincipal);
 
         centreJeu.addComponentListener(new java.awt.event.ComponentAdapter() {

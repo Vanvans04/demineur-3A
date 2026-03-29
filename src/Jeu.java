@@ -47,7 +47,7 @@ public class Jeu extends Observable {
                 if (premierCoup) {
                     premierCoup = false;
                     int taille = grille.getTaille();
-                    grille.placerBombes((int) ((taille * taille) * 0.15), c);
+                    grille.placerBombes((int) ((taille * taille) * pourcentage), c);
 
                     for (Case caseVP : grille.getCases()) {
                         grille.calculerNbVP(caseVP);
@@ -148,5 +148,9 @@ public class Jeu extends Observable {
 
     public boolean isPartiePerdue() {
         return partiePerdue;
+    }
+
+    public boolean isPartieGagnee() {
+        return partieGagnee;
     }
 }
