@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observer;
 
 public class Menu extends JFrame {
     public Menu() {

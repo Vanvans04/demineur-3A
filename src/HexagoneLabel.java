@@ -38,4 +38,12 @@ public class HexagoneLabel extends JLabel {
         g2.drawPolygon(hexagone);
         super.paintComponent(g);
     }
+
+    @Override
+    public boolean contains(int x, int y) {
+        if (hexagone == null){
+            return super.contains(x, y);
+        }
+        return hexagone.contains(x, y);
+    }
 }

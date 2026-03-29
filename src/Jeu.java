@@ -6,24 +6,35 @@ public class Jeu extends Observable {
     private Grille grille;
     private boolean premierCoup;
     private TypeJeu typeJeu;
-    private boolean partiePerdue;
+    private boolean partiePerdue, partieGagnee;
+    private double pourcentage;
 
-    public Jeu(int windowSize, int nbCases, TypeJeu typeJeu) {
+    public Jeu(int windowSize, int nbCases, TypeJeu typeJeu, double pourcentage) {
         this.windowSize = windowSize;
         this.nbCases = nbCases;
         this.premierCoup = true;
         this.typeJeu = typeJeu;
         this.partiePerdue = false;
+        this.partieGagnee = false;
+        this.pourcentage = pourcentage;
     }
 
     public void init(){
-        this.grille = new GrilleH(nbCases);
+        if(this.typeJeu.equals(TypeJeu.CARRE)){
+            this.grille = new GrilleC(nbCases);
+        }
+        else if(this.typeJeu.equals(TypeJeu.HEXAGONAL)){
+            this.grille = new GrilleH(nbCases);
+        }
     }
 
     public void reset() {
         this.premierCoup = true;
         this.partiePerdue = false;
+        this.partieGagnee = false;
         this.init();
+        setChanged();
+        notifyObservers();
     }
 
     public void updateCase(int i, int j, Coup coup){
@@ -69,10 +80,26 @@ public class Jeu extends Observable {
     }
 
     public void decouvrirCase(Case c){
+        c.getStrategie().decouvrir(c, grille);
         if(c.isBombe()){
             partiePerdue = true;
         }
-        c.getStrategie().decouvrir(c, grille);
+        else{
+            verifierVictoire();
+        }
+    }
+
+    private void verifierVictoire() {
+        boolean gagne = true;
+        for (Case c : grille.getCases()) {
+            if (!c.isBombe() && !c.isVisible()) {
+                gagne = false;
+                break;
+            }
+        }
+        if (gagne) {
+            this.partieGagnee = true;
+        }
     }
 
     public void setLeft(int i, int j){

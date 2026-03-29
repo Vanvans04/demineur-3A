@@ -1,28 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GameOver extends JFrame {
-    public GameOver(TypeJeu typeJeu, JFrame fenetrePrincipale) {
+public class EcranFin extends JFrame {
+    public EcranFin(TypeJeu typeJeu, JFrame fenetrePrincipale, boolean victoire) {
         setTitle("Fin de la partie");
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        JLabel gameOverText = new JLabel("GAME OVER", SwingConstants.CENTER);
-        gameOverText.setForeground(Color.RED);
-        gameOverText.setFont(new Font("Arial", Font.BOLD, 25));
-        add(gameOverText, BorderLayout.CENTER);
+        JLabel texteFin = new JLabel("", SwingConstants.CENTER);
+        texteFin.setFont(new Font("Arial", Font.BOLD, 25));
+        if (victoire) {
+            texteFin.setText("Victoire");
+            texteFin.setForeground(Color.GREEN);
+        }else {
+            texteFin.setText("Game Over");
+            texteFin.setForeground(Color.RED);
+        }
+        add(texteFin, BorderLayout.CENTER);
         JPanel panelBoutons = new JPanel();
-        JButton restartButton = new JButton("Restart");
+        JButton restartButton = new JButton("Relancer");
         JButton quitButton = new JButton("Quitter");
         quitButton.addActionListener(e -> System.exit(0));
         restartButton.addActionListener(e -> {
-            GestionnaireJeu.getInstance().lancerJeu(typeJeu);
             if (fenetrePrincipale != null) {
                 MF fenetre = (MF) fenetrePrincipale;
                 fenetre.relancerPartie();
             }
             this.dispose();
-            Menu.lancerJeu();
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
         panelBoutons.add(restartButton);
         panelBoutons.add(quitButton);
