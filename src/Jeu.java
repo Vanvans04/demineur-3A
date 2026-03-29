@@ -5,15 +5,25 @@ public class Jeu extends Observable {
     private int i,j, windowSize, nbCases;
     private Grille grille;
     private boolean premierCoup;
+    private TypeJeu typeJeu;
+    private boolean partiePerdue;
 
-    public Jeu(int windowSize, int nbCases){
+    public Jeu(int windowSize, int nbCases, TypeJeu typeJeu) {
         this.windowSize = windowSize;
         this.nbCases = nbCases;
         this.premierCoup = true;
+        this.typeJeu = typeJeu;
+        this.partiePerdue = false;
     }
 
     public void init(){
         this.grille = new GrilleH(nbCases);
+    }
+
+    public void reset() {
+        this.premierCoup = true;
+        this.partiePerdue = false;
+        this.init();
     }
 
     public void updateCase(int i, int j, Coup coup){
@@ -59,6 +69,9 @@ public class Jeu extends Observable {
     }
 
     public void decouvrirCase(Case c){
+        if(c.isBombe()){
+            partiePerdue = true;
+        }
         c.getStrategie().decouvrir(c, grille);
     }
 
@@ -100,5 +113,13 @@ public class Jeu extends Observable {
 
     public boolean isDrapeau(int i, int j) {
         return grille.getCase(i, j).isDrapeau();
+    }
+
+    public TypeJeu getTypeJeu() {
+        return typeJeu;
+    }
+
+    public boolean isPartiePerdue() {
+        return partiePerdue;
     }
 }

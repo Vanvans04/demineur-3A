@@ -19,16 +19,17 @@ public class MF extends JFrame implements Observer {
         tab = new JLabel[nbCases][nbCases];
         this.jeu = j;
         URL flagURL = getClass().getResource("/resources/flag.png");
-        assert flagURL != null;
-        ImageIcon iconImage = new ImageIcon(flagURL);
-        Image image = iconImage.getImage().getScaledInstance((jeu.getWindowSize()/nbCases)-nbCases, (jeu.getWindowSize()/nbCases)-nbCases, Image.SCALE_SMOOTH);
-        flagIcon = new ImageIcon(image);
         URL mineURL = getClass().getResource("/resources/mine.png");
+        assert flagURL != null;
         assert mineURL != null;
+        ImageIcon iconImage = new ImageIcon(flagURL);
         ImageIcon iconMine = new ImageIcon(mineURL);
+        Image image = iconImage.getImage().getScaledInstance((jeu.getWindowSize()/nbCases)-nbCases, (jeu.getWindowSize()/nbCases)-nbCases, Image.SCALE_SMOOTH);
         Image imageMine = iconMine.getImage().getScaledInstance((jeu.getWindowSize() / nbCases) - nbCases, (jeu.getWindowSize() / nbCases) - nbCases, Image.SCALE_SMOOTH);
+        flagIcon = new ImageIcon(image);
         bombeIcon = new ImageIcon(imageMine);
-        build(TypeJeu.HEXAGONAL);
+        build(j.getTypeJeu());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -55,6 +56,11 @@ public class MF extends JFrame implements Observer {
             }
         }
         this.repaint();
+        if(jeu.isPartiePerdue()){
+            TypeJeu typeJeu = jeu.getTypeJeu();
+            GameOver gameOverWindow = new GameOver(typeJeu, this);
+            gameOverWindow.setVisible(true);
+        }
     }
 
     public void build(TypeJeu typeJeu){
@@ -62,10 +68,10 @@ public class MF extends JFrame implements Observer {
         JPanel panneauJeu = new JPanel();
         int tailleJeu = jeu.getWindowSize() - 50;
         panneauJeu.setPreferredSize(new Dimension(tailleJeu, tailleJeu));
-        if(typeJeu.equals(TypeJeu.CARRE)){
-            panneauJeu.setLayout(new GridLayout(nbCases,nbCases));
-            for(int i=0;i<nbCases;i++){
-                for(int j=0;j<nbCases;j++){
+        if (typeJeu.equals(TypeJeu.CARRE)) {
+            panneauJeu.setLayout(new GridLayout(nbCases, nbCases));
+            for (int i = 0; i < nbCases; i++) {
+                for (int j = 0; j < nbCases; j++) {
                     JLabel jp = new JLabel();
                     jp.setHorizontalAlignment(SwingConstants.CENTER);
                     jp.setVerticalAlignment(SwingConstants.CENTER);
@@ -108,8 +114,54 @@ public class MF extends JFrame implements Observer {
         panneauPrincipal.add(panneauJeu);
         setContentPane(panneauPrincipal);
 
+        panneauPrincipal.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                int largeurDispo = panneauPrincipal.getWidth() - 40;
+                int hauteurDispo = panneauPrincipal.getHeight() - 40;
+                int tailleCarre = Math.min(largeurDispo, hauteurDispo);
+
+                panneauJeu.setPreferredSize(new Dimension(tailleCarre, tailleCarre));
+                panneauPrincipal.revalidate();
+
+                if (typeJeu.equals(TypeJeu.HEXAGONAL)) {
+                    int largeur = (int) (tailleCarre / (1.0 + (nbCases - 1) * 0.75));
+                    int hauteur = (int) (tailleCarre / (nbCases + 0.5));
+                    largeur -= (largeur % 4); // Garde la symétrie
+                    hauteur -= (hauteur % 2); // Garde la symétrie
+
+                    for (int i = 0; i < nbCases; i++) {
+                        for (int j = 0; j < nbCases; j++) {
+                            int x = (int) (j * (largeur * 0.75));
+                            int y = i * hauteur;
+                            if (j % 2 == 1) {
+                                y += hauteur / 2;
+                            }
+                            tab[i][j].setBounds(x, y, largeur, hauteur);
+                            tab[i][j].repaint();
+                        }
+                    }
+                }
+            }
+        });
+
+        this.setMinimumSize(new Dimension(300, 300));
+        this.setLocationRelativeTo(null);
+
         pack();
 
+    }
+
+    public void relancerPartie(){
+        jeu.reset();
+        for(int i = 0; i < nbCases; i++){
+            for (int j = 0; j < nbCases; j++){
+                tab[i][j].setIcon(null);
+                tab[i][j].setText("");
+                tab[i][j].setBackground(UIManager.getColor("Label.background"));
+            }
+        }
+        this.repaint();
     }
 
     private void ajouterEcouteurSouris(JLabel caseJeu, int i, int j){

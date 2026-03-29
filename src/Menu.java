@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Menu extends JFrame {
-
     public Menu() {
         setTitle("Menu Démineur");
         setSize(300, 200);
@@ -18,6 +17,7 @@ public class Menu extends JFrame {
         setLayout(new GridLayout(2, 1));
         add(playButton);
         add(quitButton);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public static void lancerJeu() {

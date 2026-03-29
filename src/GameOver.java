@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameOver extends JFrame {
-    public GameOver() {
+    public GameOver(TypeJeu typeJeu, JFrame fenetrePrincipale) {
         setTitle("Fin de la partie");
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,13 +16,17 @@ public class GameOver extends JFrame {
         JButton quitButton = new JButton("Quitter");
         quitButton.addActionListener(e -> System.exit(0));
         restartButton.addActionListener(e -> {
+            GestionnaireJeu.getInstance().lancerJeu(typeJeu);
+            if (fenetrePrincipale != null) {
+                MF fenetre = (MF) fenetrePrincipale;
+                fenetre.relancerPartie();
+            }
             this.dispose();
             Menu.lancerJeu();
         });
         panelBoutons.add(restartButton);
         panelBoutons.add(quitButton);
         add(panelBoutons, BorderLayout.SOUTH);
-        setVisible(true);
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

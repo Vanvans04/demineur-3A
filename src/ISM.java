@@ -8,6 +8,5 @@ public class ISM implements IStrategie {
                 grille.getCase(i, j).setVisible(true);
             }
         }
-        GameOver gameOver = new GameOver();
     }
 }
