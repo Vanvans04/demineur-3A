@@ -14,10 +14,12 @@ public class GrilleH extends Grille{
         ArrayList<Case> voisins = new ArrayList<>();
 
         if(posCase[1] % 2 == 0){
+            // Haut, bas, haut-gauche, bas-gauche, haut-droit, bas-droit
             positionsI = new int[]{ -1, 1, -1,  0, -1,  0 };
             positionsJ = new int[]{  0, 0, -1, -1,  1,  1 };
         }
         else{
+            // Haut, bas, haut-gauche, bas-gauche, haut-droit, bas-droit
             positionsI = new int[]{ -1, 1,  0,  1,  0,  1 };
             positionsJ = new int[]{  0, 0, -1, -1,  1,  1 };
         }
