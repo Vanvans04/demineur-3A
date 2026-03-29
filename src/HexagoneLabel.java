@@ -30,10 +30,6 @@ public class HexagoneLabel extends JLabel {
             g2.setColor(getBackground());
             g2.fillPolygon(hexagone);
         }
-        if (getBackground() != null) {
-            g2.setColor(getBackground());
-            g2.fillPolygon(hexagone);
-        }
         g2.setColor(Color.BLACK);
         g2.drawPolygon(hexagone);
         super.paintComponent(g);
