@@ -215,7 +215,7 @@ public class MF extends JFrame implements Observer {
             for (int j = 0; j < nbCases; j++){
                 tab[i][j].setIcon(null);
                 tab[i][j].setText("");
-                tab[i][j].setBackground(UIManager.getColor("Label.background"));
+                tab[i][j].setBackground(Color.white);
             }
         }
         timer.stop();
