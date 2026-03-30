@@ -110,8 +110,8 @@ public class MF extends JFrame implements Observer {
                     int largeur = (int) (getWidth() / (1.0 + (nbCases - 1) * 0.75));
                     int hauteur = (int) (getHeight() / (nbCases + 0.5));
 
-                    largeur -= (largeur % 4);
-                    hauteur -= (hauteur % 2);
+                    largeur -= largeur % 4;
+                    hauteur -= hauteur % 2;
 
                     int largeurGrille = (int) (largeur + (nbCases - 1) * (largeur * 0.75));
                     int hauteurGrille = (nbCases * hauteur) + (hauteur / 2);
